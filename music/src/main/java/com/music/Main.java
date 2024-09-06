@@ -1,5 +1,8 @@
+package com.music;
 import java.util.List;
 import java.util.stream.Stream;
+
+import com.music.Music;
 
 public class Main{
     public static void main(String[] args) {

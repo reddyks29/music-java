@@ -1,8 +1,11 @@
+package com.music;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import com.music.Music;
 
 public class Action {
     List<Music> musics=new ArrayList<>();
