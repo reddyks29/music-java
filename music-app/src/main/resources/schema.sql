@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS songs (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    artist VARCHAR(255),
+    language VARCHAR(255),
+    movie VARCHAR(255),
+    name VARCHAR(255),
+    year INT NOT NULL
+);

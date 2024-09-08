@@ -5,51 +5,47 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.stream.*;
-
 import com.music.app.Music;
 import com.music.repositry.MusicRepo;
 
 @Service
 public class MusicService {
-//intermidiate between the repositry and controller
+//Intermediate between the repository and controller
 	@Autowired
 	private MusicRepo musicRepo;
 	
-	//method to save a song
-	public Music save(Music music) {
-		return musicRepo.save(music);
+	public List<Music> getAllmusic(){
+		return musicRepo.findAll();
 	}
 	
-	//add music
+	public List<Music> searchMusic(String name){
+		return musicRepo.findByNameContaining(name);
+	}
+	
 	public void addMusic(Music music) {
 		musicRepo.save(music);
 	}
 	
-	//Method to get all songs
-	public List<Music> getAllsongs(){
-		return musicRepo.findAll();
+	public Optional<Music> getMusicById(Long id){
+		return musicRepo.findById(id);
 	}
 	
-	//Method to find song by name
-	public Optional<Music> getMusicByName(String name){
-		return Optional.ofNullable(musicRepo.findById(name).orElse(null));
-		
+	public void updateMusic(Long id,Music updateMusic) {
+		Optional<Music> existingMusic=musicRepo.findById(id);
+		if(existingMusic.isPresent()) {
+			Music music=existingMusic.get();
+			music.setName(updateMusic.getName());
+			music.setArtist(updateMusic.getArtist());
+			music.setLanguage(updateMusic.getLanguage());
+			music.setMovie(updateMusic.getMovie());
+			music.setYear(updateMusic.getYear());
+			musicRepo.save(music);
+		}
 	}
 	
-	public List<Music> findByText(String text){
-		return (List<Music>) musicRepo.findAll().stream().filter(m->m.getArtist().toLowerCase().contains(text.toLowerCase())||
-				m.getLanguage().toLowerCase().contains(text.toLowerCase())||
-				m.getMovie().toLowerCase().contains(text.toLowerCase())||
-				m.getName().toLowerCase().contains(text.toLowerCase())).collect(Collectors.toList());
+	public void deleteMusic(Long id) {
+		musicRepo.deleteById(id);
 	}
 	
-	public List<Music> getSongOfyear(int year){
-		return (List<Music>) musicRepo.findAll().stream().filter(m->m.getYear()>=year).collect(Collectors.toList());
-	}
 	
-	//method to delete a song by name
-	public void deleteMusic(String name) {
-		musicRepo.deleteById(name);
-	}
 }
